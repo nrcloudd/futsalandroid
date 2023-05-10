@@ -29,6 +29,7 @@ class _LoginState extends State<Login> {
         padding: const EdgeInsets.all(8),
         color: Colors.lightBlue,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
               width: 100,
@@ -47,7 +48,7 @@ class _LoginState extends State<Login> {
               height: 20,
             ),
             Text(
-              "Selamat Datang di FUTZONE, Silahkan Login Terlebih Dahulu",
+              "Selamat Datang di FUTZONE",
               style: TextStyle(fontSize: 20, color: Colors.black87),
             ),
             SizedBox(
@@ -66,6 +67,44 @@ class _LoginState extends State<Login> {
                   hintStyle: TextStyle(color: Colors.black87),
                   labelText: "UserName",
                   labelStyle: TextStyle(color: Colors.black87)),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            TextFormField(
+              obscureText: true,
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black87)),
+                  prefixIcon: Icon(
+                    Icons.lock,
+                    size: 40,
+                  ),
+                  hintText: "Masukkan Password",
+                  hintStyle: TextStyle(color: Colors.black87),
+                  labelText: "Password",
+                  labelStyle: TextStyle(color: Colors.black87)),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Card(
+              color: Colors.black87,
+              elevation: 5,
+              child: Container(
+                height: 50,
+                child: InkWell(
+                  splashColor: Colors.white,
+                  onTap: () {},
+                  child: Center(
+                    child: Text(
+                      "Login",
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
             )
           ],
         ),
