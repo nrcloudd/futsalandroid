@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_futsal/main.dart';
 import 'package:flutter_futsal/peminjaman.dart';
+import 'package:flutter_futsal/register.dart';
 
 void main() => runApp(MyApp());
 
@@ -110,6 +111,29 @@ class _LoginState extends State<Login> {
                   child: Center(
                     child: Text(
                       "Login",
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Card(
+              color: Colors.black87,
+              elevation: 5,
+              child: Container(
+                height: 50,
+                child: InkWell(
+                  splashColor: Colors.white,
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Register()));
+                  },
+                  child: Center(
+                    child: Text(
+                      "Register",
                       style: TextStyle(fontSize: 20, color: Colors.white),
                     ),
                   ),
