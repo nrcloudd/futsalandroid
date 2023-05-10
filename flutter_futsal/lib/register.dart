@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_futsal/login.dart';
 import 'package:flutter_futsal/main.dart';
 
 void main() => runApp(MyApp());
@@ -51,17 +52,60 @@ class _RegisterState extends State<Register> {
               "Selamat Datang di FUTZONE",
               style: TextStyle(fontSize: 20, color: Colors.black87),
             ),
+            Text(
+              "User Register",
+              style: TextStyle(fontSize: 20, color: Colors.black87),
+            ),
+
             SizedBox(
               height: 20,
             ),
+
+
             TextFormField(
               decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.black87)),
                   prefixIcon: Icon(
-                    Icons.person,
-                    size: 40,
+                    Icons.person_outline_rounded,
+                    size: 30,
+                  ),
+                  hintText: "Masukkan Nama",
+                  hintStyle: TextStyle(color: Colors.black87),
+                  labelText: "Nama",
+                  labelStyle: TextStyle(color: Colors.black87)),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+
+            TextFormField(
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black87)),
+                  prefixIcon: Icon(
+                    Icons.phone,
+                    size: 30,
+                  ),
+                  hintText: "Masukkan No HP",
+                  hintStyle: TextStyle(color: Colors.black87),
+                  labelText: "No HP",
+                  labelStyle: TextStyle(color: Colors.black87)),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+
+            TextFormField(
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black87)),
+                  prefixIcon: Icon(
+                    Icons.person_outline_outlined,
+                    size: 30,
                   ),
                   hintText: "Masukkan Username",
                   hintStyle: TextStyle(color: Colors.black87),
@@ -71,6 +115,7 @@ class _RegisterState extends State<Register> {
             SizedBox(
               height: 20,
             ),
+
             TextFormField(
               obscureText: true,
               decoration: InputDecoration(
@@ -79,7 +124,7 @@ class _RegisterState extends State<Register> {
                       borderSide: BorderSide(color: Colors.black87)),
                   prefixIcon: Icon(
                     Icons.lock,
-                    size: 40,
+                    size: 30,
                   ),
                   hintText: "Masukkan Password",
                   hintStyle: TextStyle(color: Colors.black87),
@@ -96,16 +141,24 @@ class _RegisterState extends State<Register> {
                 height: 50,
                 child: InkWell(
                   splashColor: Colors.white,
-                  onTap: () {},
+                  onTap: () {
+
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  Login()));
+                  },
                   child: Center(
+
                     child: Text(
                       "Register",
                       style: TextStyle(fontSize: 20, color: Colors.white),
                     ),
+                    ),
                   ),
                 ),
               ),
-            )
           ],
         ),
       ),

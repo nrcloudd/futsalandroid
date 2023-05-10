@@ -51,6 +51,10 @@ class _LoginState extends State<Login> {
               "Selamat Datang di FUTZONE",
               style: TextStyle(fontSize: 20, color: Colors.black87),
             ),
+            Text(
+              "User Login",
+              style: TextStyle(fontSize: 20, color: Colors.black87),
+            ),
             SizedBox(
               height: 20,
             ),
