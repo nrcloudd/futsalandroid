@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'peminjaman.dart';
+import 'register.dart';
 //================ NOTE ================/
 // Kalau mau nge run halaman yang udah mbok buat gantien 'PeminjamanPage' yang ada di runApp() jadi nama class halamanmu
 
 void main() {
-  runApp(PeminjamanPage());
+  runApp(RegisterPage());
 }
 
 class MyApp extends StatelessWidget {
