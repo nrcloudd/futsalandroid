@@ -6,7 +6,11 @@ import 'login.dart';
 // Kalau mau nge run halaman yang udah mbok buat gantien 'PeminjamanPage' yang ada di runApp() jadi nama class halamanmu
 
 void main() {
-  runApp(RegisterPage());
+  runApp(
+    MaterialApp(
+      home: Register(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
