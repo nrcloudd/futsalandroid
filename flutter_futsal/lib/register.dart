@@ -26,17 +26,23 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/IMG1.jpg"),
+            fit: BoxFit.cover,
+          ),
+        ),
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.all(8),
-        color: Colors.lightBlue,
+        // color: Colors.lightBlue,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
               width: 100,
               height: 100,
-              decoration:
-              BoxDecoration(color: Colors.black87, shape: BoxShape.circle),
+              decoration: BoxDecoration(
+                  color: Colors.lightBlue, shape: BoxShape.circle),
               child: Center(
                 child: Icon(
                   Icons.person,
@@ -56,12 +62,9 @@ class _RegisterState extends State<Register> {
               "User Register",
               style: TextStyle(fontSize: 20, color: Colors.black87),
             ),
-
             SizedBox(
               height: 20,
             ),
-
-
             TextFormField(
               decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -79,7 +82,6 @@ class _RegisterState extends State<Register> {
             SizedBox(
               height: 20,
             ),
-
             TextFormField(
               decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -97,7 +99,6 @@ class _RegisterState extends State<Register> {
             SizedBox(
               height: 20,
             ),
-
             TextFormField(
               decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -115,7 +116,6 @@ class _RegisterState extends State<Register> {
             SizedBox(
               height: 20,
             ),
-
             TextFormField(
               obscureText: true,
               decoration: InputDecoration(
@@ -135,30 +135,25 @@ class _RegisterState extends State<Register> {
               height: 20,
             ),
             Card(
-              color: Colors.black87,
+              color: Colors.lightBlue,
               elevation: 5,
               child: Container(
                 height: 50,
                 child: InkWell(
                   splashColor: Colors.white,
                   onTap: () {
-
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  Login()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Login()));
                   },
                   child: Center(
-
                     child: Text(
                       "Register",
                       style: TextStyle(fontSize: 20, color: Colors.white),
                     ),
-                    ),
                   ),
                 ),
               ),
+            ),
           ],
         ),
       ),
