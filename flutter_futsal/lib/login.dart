@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_futsal/main.dart';
 import 'package:flutter_futsal/peminjaman.dart';
 import 'package:flutter_futsal/register.dart';
+import 'package:flutter_futsal/welcome.dart';
 
 void main() => runApp(MyApp());
 
@@ -27,17 +28,23 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/IMG1.jpg"),
+            fit: BoxFit.cover,
+          ),
+        ),
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.all(8),
-        color: Colors.lightBlue,
+        // color: Colors.lightBlue,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
               width: 100,
               height: 100,
-              decoration:
-                  BoxDecoration(color: Colors.black87, shape: BoxShape.circle),
+              decoration: BoxDecoration(
+                  color: Colors.lightBlue, shape: BoxShape.circle),
               child: Center(
                 child: Icon(
                   Icons.person,
@@ -50,12 +57,14 @@ class _LoginState extends State<Login> {
               height: 20,
             ),
             Text(
-              "Selamat Datang di FUTZONE",
-              style: TextStyle(fontSize: 20, color: Colors.black87),
+              "Welcome To FUTZONE",
+              style: TextStyle(
+                  fontSize: 20, color: Colors.black87, fontFamily: 'Acme'),
             ),
             Text(
               "User Login",
-              style: TextStyle(fontSize: 20, color: Colors.black87),
+              style: TextStyle(
+                  fontSize: 20, color: Colors.black87, fontFamily: 'Acme'),
             ),
             SizedBox(
               height: 20,
@@ -96,7 +105,7 @@ class _LoginState extends State<Login> {
               height: 20,
             ),
             Card(
-              color: Colors.black87,
+              color: Colors.lightBlue,
               elevation: 5,
               child: Container(
                 height: 50,
@@ -121,7 +130,7 @@ class _LoginState extends State<Login> {
               height: 20,
             ),
             Card(
-              color: Colors.black87,
+              color: Colors.lightBlue,
               elevation: 5,
               child: Container(
                 height: 50,
