@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
+import 'home.dart';
 import 'peminjaman.dart';
 import 'register.dart';
 import 'login.dart';
 import 'welcome.dart';
+import 'history.dart';
+
 //================ NOTE ================/
 // Kalau mau nge run halaman yang udah mbok buat gantien 'PeminjamanPage' yang ada di runApp() jadi nama class halamanmu
 
 void main() {
   runApp(
     MaterialApp(
-      home: Welcome(),
+      initialRoute: '/',
+    routes: {
+      '/home': (context) => HomePage(),
+      '/history': (context) => HistoryPage(),
+      '/login': (context) => Login(),
+    },
+      home: HomePage(),
     ),
   );
 }

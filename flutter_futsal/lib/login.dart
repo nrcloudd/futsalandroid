@@ -3,6 +3,7 @@ import 'package:flutter_futsal/main.dart';
 import 'package:flutter_futsal/peminjaman.dart';
 import 'package:flutter_futsal/register.dart';
 import 'package:flutter_futsal/welcome.dart';
+import 'package:flutter_futsal/home.dart';
 
 void main() => runApp(MyApp());
 
@@ -115,7 +116,7 @@ class _LoginState extends State<Login> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => PeminjamanPage()));
+                            builder: (context) => HomePage()));
                   },
                   child: Center(
                     child: Text(
