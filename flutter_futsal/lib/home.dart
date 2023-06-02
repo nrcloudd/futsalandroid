@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'history.dart';
 import 'main.dart';
+import 'peminjaman.dart';
+import 'login.dart';
 
 class Product {
   final String title;
@@ -9,13 +11,12 @@ class Product {
 }
 
 class HomePage extends StatelessWidget {
-
-final List<Product> products = [
-    Product('Produk 1'),
-    Product('Produk 2'),
-    Product('Produk 3'),
-    Product('Produk 4'),
-    Product('Produk 5'),
+  final List<Product> products = [
+    Product('Lapangan 1'),
+    Product('Lapangan 2'),
+    Product('Lapangan 3'),
+    Product('Lapangan 4'),
+    Product('Lapangan 5'),
   ];
 
   @override
@@ -52,45 +53,63 @@ final List<Product> products = [
               leading: Icon(Icons.logout_rounded),
               title: Text('Log Out'),
               onTap: () {
-                Navigator.pop(context); // Menutup drawer
-                Navigator.pushNamed(context, '/login');
+                Navigator.pop(context);
+                // Menutup drawer
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Login(),
+                  ),
+                );
               },
             ),
           ],
         ),
       ),
-       body: GridView.count(
-         crossAxisCount: 2, // Jumlah kolom
+      body: GridView.count(
+        crossAxisCount: 2, // Jumlah kolom
         children: List.generate(products.length, (index) {
           return Card(
-            child: ListTile(
-              title: Stack(
-                children: [
-                  Image.asset(
-                    'assets/images/IMG2.jpg', // Path file gambar default
-                  ),
-                  Positioned.fill(
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          products[index].title,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
+              child: ListTile(
+                  title: Stack(
+                    children: [
+                      Image.asset(
+                        'assets/images/IMG2.jpg', // Path file gambar default
+                      ),
+                      Positioned.fill(
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              products[index].title,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-          );
+                  subtitle: ButtonBar(
+                    children: [
+                      ElevatedButton(
+                          child: Text('Pinjam'),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PeminjamanPage(),
+                              ),
+                            );
+                          }),
+                    ],
+                  )));
         }),
-       ),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
