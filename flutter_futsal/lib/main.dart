@@ -14,9 +14,9 @@ void main() {
     MaterialApp(
       initialRoute: '/',
     routes: {
+      '/login': (context) => Login(),
       '/home': (context) => HomePage(),
       '/history': (context) => HistoryPage(),
-      '/login': (context) => Login(),
     },
       home: HomePage(),
     ),

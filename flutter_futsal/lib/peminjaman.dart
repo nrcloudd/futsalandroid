@@ -9,12 +9,14 @@ class PeminjamanPage extends StatefulWidget {
 class _SewaLapanganPageState extends State<PeminjamanPage> {
   late String _selectedDate;
   late String _selectedTime;
-    int totalHarga = 100000; // Ganti dengan nilai total harga yang sesuai
-    int totalBayar = 0;
-    int sisaBayar = 0;
+  int totalHarga = 100000; // Ganti dengan nilai total harga yang sesuai
+  int totalBayar = 0;
+  int sisaBayar = 0;
   TextEditingController _namaController = TextEditingController();
   TextEditingController _totalBayarController = TextEditingController();
   TextEditingController _sisaBayarController = TextEditingController();
+  TextEditingController _dateController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -50,32 +52,35 @@ class _SewaLapanganPageState extends State<PeminjamanPage> {
                 },
               ),
               SizedBox(height: 16.0),
-              ElevatedButton(
-                child: Text('Pilih Tanggal'),
-                onPressed: () {
+              // ElevatedButton(
+              //   child: Text('Pilih Tanggal'),
+              //   onPressed: () {
+              //     _selectDate(context);
+              //   },
+              // ),
+              TextField(
+                controller: _dateController,
+                readOnly: true,
+                onTap: () {
                   _selectDate(context);
                 },
-              ),
-              SizedBox(height: 16.0),
-              Text(
-                'Total Harga:',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                decoration: InputDecoration(
+                  labelText: 'Tanggal',
+                ),
               ),
               SizedBox(height: 8.0),
-              Text(
-                // totalHarga.toString(),
-                
-                'Total harga: $totalHarga',
+              TextField(
+                readOnly: true,
+                controller:
+                    TextEditingController(text: 'Total harga: $totalHarga'),
                 // Total harga dapat diganti sesuai dengan logika bisnis Anda
                 style: TextStyle(fontSize: 18.0),
               ),
               SizedBox(height: 16.0),
-              Text(
-                'Total Bayar:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 8.0),
               TextField(
+                 decoration: InputDecoration(
+                  labelText: 'Total Bayar:',
+                ),
                 controller: _totalBayarController,
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
@@ -83,13 +88,12 @@ class _SewaLapanganPageState extends State<PeminjamanPage> {
                   _calculateSisaBayar();
                 },
               ),
-              SizedBox(height: 16.0),
-              Text(
-                'Sisa Bayar:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
               SizedBox(height: 8.0),
-               TextField(
+              TextField(
+                readOnly: true,
+                decoration: InputDecoration(
+                  labelText: 'Sisa Bayar:',
+                ),
                 controller: _sisaBayarController,
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
@@ -117,6 +121,8 @@ class _SewaLapanganPageState extends State<PeminjamanPage> {
       ),
     );
   }
+ 
+ 
 
   void _selectTime(BuildContext context) async {
     TimeOfDay? selectedTime = await showTimePicker(
@@ -140,6 +146,7 @@ class _SewaLapanganPageState extends State<PeminjamanPage> {
     if (pickedDate != null) {
       setState(() {
         _selectedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+        _dateController.text = _selectedDate.toString();
       });
     }
   }
@@ -147,11 +154,10 @@ class _SewaLapanganPageState extends State<PeminjamanPage> {
   void _calculateSisaBayar() {
     // Lakukan perhitungan sisa bayar sesuai dengan logika bisnis Anda
     // Contoh perhitungan: sisaBayar = totalHarga - totalBayar
-     totalHarga = 100000; // Ganti dengan nilai total harga yang sesuai
-     totalBayar = int.parse(_totalBayarController.text);
-     sisaBayar = totalHarga - totalBayar;
+    totalHarga = 100000; // Ganti dengan nilai total harga yang sesuai
+    totalBayar = int.parse(_totalBayarController.text);
+    sisaBayar = totalHarga - totalBayar;
     _sisaBayarController.text = sisaBayar.toString();
-    
   }
 
   void _submitTransaksi() {
@@ -177,5 +183,3 @@ class _SewaLapanganPageState extends State<PeminjamanPage> {
     );
   }
 }
-
-
