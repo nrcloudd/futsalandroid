@@ -18,7 +18,7 @@ void main() {
       '/home': (context) => HomePage(),
       '/history': (context) => HistoryPage(),
     },
-      home: HomePage(),
+      home: Login(),
     ),
   );
 }

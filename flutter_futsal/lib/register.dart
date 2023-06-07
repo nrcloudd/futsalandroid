@@ -65,6 +65,8 @@ class _RegisterState extends State<Register> {
             SizedBox(
               height: 20,
             ),
+
+            //Form Nama
             TextFormField(
               decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -82,6 +84,9 @@ class _RegisterState extends State<Register> {
             SizedBox(
               height: 20,
             ),
+
+
+            //Form no HP
             TextFormField(
               decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -99,6 +104,9 @@ class _RegisterState extends State<Register> {
             SizedBox(
               height: 20,
             ),
+
+
+            //Form Username
             TextFormField(
               decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -108,14 +116,16 @@ class _RegisterState extends State<Register> {
                     Icons.person_outline_outlined,
                     size: 30,
                   ),
-                  hintText: "Masukkan Username",
+                  hintText: "Masukkan Email",
                   hintStyle: TextStyle(color: Colors.black87),
-                  labelText: "UserName",
+                  labelText: "Email",
                   labelStyle: TextStyle(color: Colors.black87)),
             ),
             SizedBox(
               height: 20,
             ),
+
+            //Form Password
             TextFormField(
               obscureText: true,
               decoration: InputDecoration(
@@ -134,6 +144,8 @@ class _RegisterState extends State<Register> {
             SizedBox(
               height: 20,
             ),
+
+
             Card(
               color: Colors.lightBlue,
               elevation: 5,
