@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart';
 
 class PeminjamanPage extends StatefulWidget {
   @override
@@ -7,6 +10,7 @@ class PeminjamanPage extends StatefulWidget {
 }
 
 class _SewaLapanganPageState extends State<PeminjamanPage> {
+  File? _pickedImage;
   late String _selectedDate;
   late String _selectedTime;
   int totalHarga = 100000; // Ganti dengan nilai total harga yang sesuai
@@ -16,7 +20,7 @@ class _SewaLapanganPageState extends State<PeminjamanPage> {
   TextEditingController _totalBayarController = TextEditingController();
   TextEditingController _sisaBayarController = TextEditingController();
   TextEditingController _dateController = TextEditingController();
-
+  TextEditingController _timeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -45,19 +49,23 @@ class _SewaLapanganPageState extends State<PeminjamanPage> {
                 ),
               ),
               SizedBox(height: 16.0),
-              ElevatedButton(
-                child: Text('Pilih Jam Awal'),
-                onPressed: () {
-                  _selectTime(context);
-                },
-              ),
-              SizedBox(height: 16.0),
               // ElevatedButton(
-              //   child: Text('Pilih Tanggal'),
+              //   child: Text('Pilih Jam Awal'),
               //   onPressed: () {
-              //     _selectDate(context);
+              //     _selectTime(context);
               //   },
               // ),
+              TextField(
+                controller: _timeController,
+                readOnly: true,
+                onTap: () {
+                  _selectTime(context);
+                },
+                decoration: InputDecoration(
+                  labelText: 'Waktu Awal :',
+                ),
+              ),
+              SizedBox(height: 16.0),
               TextField(
                 controller: _dateController,
                 readOnly: true,
@@ -72,13 +80,13 @@ class _SewaLapanganPageState extends State<PeminjamanPage> {
               TextField(
                 readOnly: true,
                 controller:
-                    TextEditingController(text: 'Total harga: $totalHarga'),
+                    TextEditingController(text: 'Total harga: Rp. $totalHarga'),
                 // Total harga dapat diganti sesuai dengan logika bisnis Anda
                 style: TextStyle(fontSize: 18.0),
               ),
               SizedBox(height: 16.0),
               TextField(
-                 decoration: InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Total Bayar:',
                 ),
                 controller: _totalBayarController,
@@ -102,12 +110,26 @@ class _SewaLapanganPageState extends State<PeminjamanPage> {
                 },
               ),
               SizedBox(height: 16.0),
+              // ElevatedButton(
+              //   child: Text('Unggah Gambar'),
+              //   onPressed: () {
+              //     _pickImage();
+              //   },
+              // ),
+
+              if (_pickedImage != null)
+                Image.network(
+                  _pickedImage!.path,
+                  width: 200,
+                  height: 200,
+                )
+              else
+                Text('Belum ada gambar dipilih'),
               ElevatedButton(
-                child: Text('Unggah Gambar'),
-                onPressed: () {
-                  // Tambahkan logika unggah gambar dari penyimpanan internal
-                },
+                onPressed: _pickImage,
+                child: Text('Upload Bukti Pembayaran'),
               ),
+
               SizedBox(height: 16.0),
               ElevatedButton(
                 child: Text('Sewa'),
@@ -121,8 +143,19 @@ class _SewaLapanganPageState extends State<PeminjamanPage> {
       ),
     );
   }
- 
- 
+
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedImage != null) {
+      setState(() {
+        _pickedImage = File(pickedImage.path);
+      });
+      // Gunakan pickedImage untuk mengakses path gambar yang dipilih
+      // atau melakukan operasi lain seperti mengunggah ke server
+    }
+  }
 
   void _selectTime(BuildContext context) async {
     TimeOfDay? selectedTime = await showTimePicker(
@@ -132,6 +165,7 @@ class _SewaLapanganPageState extends State<PeminjamanPage> {
     if (selectedTime != null) {
       setState(() {
         _selectedTime = selectedTime.format(context);
+        _timeController.text = _selectedTime.toString();
       });
     }
   }
