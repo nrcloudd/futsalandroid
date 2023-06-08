@@ -81,7 +81,7 @@ class _LoginState extends State<Login> {
                   ),
                   hintText: "Masukkan Username",
                   hintStyle: TextStyle(color: Colors.black87),
-                  labelText: "UserName",
+                  labelText: "Username",
                   labelStyle: TextStyle(color: Colors.black87)),
             ),
             SizedBox(
@@ -113,10 +113,8 @@ class _LoginState extends State<Login> {
                 child: InkWell(
                   splashColor: Colors.white,
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => HomePage()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => HomePage()));
                   },
                   child: Center(
                     child: Text(
