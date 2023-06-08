@@ -3,9 +3,8 @@ import 'home.dart';
 import 'peminjaman.dart';
 import 'register.dart';
 import 'login.dart';
-import 'welcome.dart';
 import 'history.dart';
-
+import 'splash_page.dart';
 //================ NOTE ================/
 // Kalau mau nge run halaman yang udah mbok buat gantien 'PeminjamanPage' yang ada di runApp() jadi nama class halamanmu
 
@@ -13,12 +12,12 @@ void main() {
   runApp(
     MaterialApp(
       initialRoute: '/',
-    routes: {
-      '/login': (context) => Login(),
-      '/home': (context) => HomePage(),
-      '/history': (context) => HistoryPage(),
-    },
-      home: Login(),
+      routes: {
+        '/login': (context) => Login(),
+        '/home': (context) => HomePage(),
+        '/history': (context) => HistoryPage(),
+      },
+      home: SplashScreen(),
     ),
   );
 }
