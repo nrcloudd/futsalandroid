@@ -4,6 +4,7 @@ import 'package:flutter_futsal/peminjaman.dart';
 import 'package:flutter_futsal/register.dart';
 import 'package:flutter_futsal/welcome.dart';
 import 'package:flutter_futsal/home.dart';
+import 'splash_page.dart';
 
 void main() => runApp(MyApp());
 
