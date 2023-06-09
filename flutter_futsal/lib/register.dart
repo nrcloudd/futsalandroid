@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_futsal/login.dart';
 import 'package:flutter_futsal/main.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_futsal/api_connection/api_connection.dart';
 
 void main() => runApp(MyApp());
 
@@ -22,6 +24,11 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,6 +75,7 @@ class _RegisterState extends State<Register> {
 
             //Form Nama
             TextFormField(
+              controller: nameController,
               decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   focusedBorder: OutlineInputBorder(
@@ -86,28 +94,9 @@ class _RegisterState extends State<Register> {
             ),
 
 
-            //Form no HP
+            //Form Email
             TextFormField(
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black87)),
-                  prefixIcon: Icon(
-                    Icons.phone,
-                    size: 30,
-                  ),
-                  hintText: "Masukkan No HP",
-                  hintStyle: TextStyle(color: Colors.black87),
-                  labelText: "No HP",
-                  labelStyle: TextStyle(color: Colors.black87)),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-
-
-            //Form Username
-            TextFormField(
+              controller: emailController,
               decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   focusedBorder: OutlineInputBorder(
@@ -127,6 +116,7 @@ class _RegisterState extends State<Register> {
 
             //Form Password
             TextFormField(
+              controller: passwordController,
               obscureText: true,
               decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -146,6 +136,29 @@ class _RegisterState extends State<Register> {
             ),
 
 
+            //Form no HP
+            TextFormField(
+              controller: phoneController,
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black87)),
+                  prefixIcon: Icon(
+                    Icons.phone,
+                    size: 30,
+                  ),
+                  hintText: "Masukkan No HP",
+                  hintStyle: TextStyle(color: Colors.black87),
+                  labelText: "No HP",
+                  labelStyle: TextStyle(color: Colors.black87)),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+
+
+
+
             Card(
               color: Colors.lightBlue,
               elevation: 5,
@@ -154,8 +167,8 @@ class _RegisterState extends State<Register> {
                 child: InkWell(
                   splashColor: Colors.white,
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Login()));
+                    registerUser();
+
                   },
                   child: Center(
                     child: Text(
@@ -171,4 +184,40 @@ class _RegisterState extends State<Register> {
       ),
     );
   }
+
+  Future<void> registerUser() async {
+    String namaMember = nameController.text;
+    String emailMember = emailController.text;
+    String passMember = passwordController.text;
+    String noTelp = phoneController.text;
+
+
+    final responseMessage = await API.registerUser(namaMember, emailMember, passMember, noTelp);
+
+    // Display the response message
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Registration Result'),
+        content: Text(responseMessage),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              if (responseMessage == 'Registration successful') {
+                // Navigate to the login page or any other desired screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Login()),
+                );
+              }
+            },
+            child: Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
 }
+
+
