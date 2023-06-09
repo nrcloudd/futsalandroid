@@ -205,7 +205,6 @@ class _RegisterState extends State<Register> {
             onPressed: () {
               Navigator.of(context).pop();
               if (responseMessage == 'Registration successful') {
-                // Navigate to the login page or any other desired screen
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Login()),

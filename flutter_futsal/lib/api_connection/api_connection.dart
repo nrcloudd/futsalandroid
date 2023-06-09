@@ -22,7 +22,7 @@ class API {
     if (response.statusCode == 201) {
       return 'Registration successful'; // Replace with your success message
     } else {
-      return 'Registration failed'; // Replace with your failure message
+      return 'Registration failed '; // Replace with your failure message
     }
   }
 }
