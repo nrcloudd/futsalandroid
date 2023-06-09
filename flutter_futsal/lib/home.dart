@@ -3,6 +3,7 @@ import 'history.dart';
 import 'main.dart';
 import 'peminjaman.dart';
 import 'login.dart';
+import 'editProfile.dart';
 
 class Product {
   final String title;
@@ -29,11 +30,35 @@ class HomePage extends StatelessWidget {
         child: ListView(
           children: [
             DrawerHeader(
-              child: Text('Drawer Header'),
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-            ),
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.white,
+                      backgroundImage: AssetImage('assets/images/avatar1.png'),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => EditProfile())
+                          );
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Welcome, ...!',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
+                )),
             ListTile(
               leading: Icon(Icons.home),
               title: Text('Home'),
