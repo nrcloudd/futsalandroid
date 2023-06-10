@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_futsal/api_connection/api_connection.dart';
 import 'package:flutter_futsal/main.dart';
 import 'package:flutter_futsal/peminjaman.dart';
 import 'package:flutter_futsal/register.dart';
-import 'package:flutter_futsal/welcome.dart';
 import 'package:flutter_futsal/home.dart';
+import 'api_connection/api_login.dart' as login;
+import 'package:http/http.dart' as http;
 import 'splash_page.dart';
 
 void main() => runApp(MyApp());
@@ -26,6 +28,9 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -153,5 +158,12 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
+  }
+
+  Future<void> loginUser() async {
+    String emailMember = emailController.text;
+    String passMember = passwordController.text;
+
+    final responseMessage = await API.loginUser(emailMember, passMember);
   }
 }
