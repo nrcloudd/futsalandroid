@@ -77,7 +77,7 @@ class _LoginState extends State<Login> {
               height: 20,
             ),
 
-            //form username
+            //form email
             TextFormField(
               controller: emailController,
               decoration: InputDecoration(
@@ -88,9 +88,9 @@ class _LoginState extends State<Login> {
                     Icons.person,
                     size: 40,
                   ),
-                  hintText: "Masukkan Username",
+                  hintText: "Masukkan Email",
                   hintStyle: TextStyle(color: Colors.black87),
-                  labelText: "Username",
+                  labelText: "Email",
                   labelStyle: TextStyle(color: Colors.black87)),
             ),
             SizedBox(
