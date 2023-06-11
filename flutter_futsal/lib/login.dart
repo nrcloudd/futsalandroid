@@ -4,8 +4,8 @@ import 'package:flutter_futsal/main.dart';
 import 'package:flutter_futsal/peminjaman.dart';
 import 'package:flutter_futsal/register.dart';
 import 'package:flutter_futsal/home.dart';
-import 'api_connection/api_login.dart' as login;
 import 'package:http/http.dart' as http;
+import 'package:flutter_futsal/home.dart';
 import 'splash_page.dart';
 
 void main() => runApp(MyApp());
@@ -76,7 +76,10 @@ class _LoginState extends State<Login> {
             SizedBox(
               height: 20,
             ),
+
+
             TextFormField(
+              controller: emailController,
               decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   focusedBorder: OutlineInputBorder(
@@ -85,15 +88,16 @@ class _LoginState extends State<Login> {
                     Icons.person,
                     size: 40,
                   ),
-                  hintText: "Masukkan Username",
+                  hintText: "Masukkan Email",
                   hintStyle: TextStyle(color: Colors.black87),
-                  labelText: "Username",
+                  labelText: "Email",
                   labelStyle: TextStyle(color: Colors.black87)),
             ),
             SizedBox(
               height: 20,
             ),
             TextFormField(
+              controller: passwordController,
               obscureText: true,
               decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -119,8 +123,8 @@ class _LoginState extends State<Login> {
                 child: InkWell(
                   splashColor: Colors.white,
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomePage()));
+                    loginUser();
+
                   },
                   child: Center(
                     child: Text(
@@ -165,5 +169,30 @@ class _LoginState extends State<Login> {
     String passMember = passwordController.text;
 
     final responseMessage = await API.loginUser(emailMember, passMember);
+    print('Response Message: $responseMessage'); // Print the response for debugging
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Login Result'),
+        content: Text(responseMessage),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              if (responseMessage == 'Login successful') {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
+              }
+            },
+            child: Text('OK'),
+          ),
+        ],
+      ),
+    );
+
+
   }
 }

@@ -54,5 +54,24 @@ class API {
     }
   }
 
+  static Future<String> editUser(
+      String namaMember, String namalMember, String noTelp) async {
+    final response = await http.post(
+      Uri.parse('$Connect/api/edituser'),
+      body: {
+        'namaMember': namaMember,
+        'noTelp': noTelp,
+
+      },
+    );
+
+    if (response.statusCode == 201) {
+      return 'Edit Profile successful'; // Replace with your success message
+    } else {
+      return 'Edit Profile failed '; // Replace with your failure message
+    }
+  }
+
+
 }
 

@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:flutter_futsal/api_connection/api_connection.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'home.dart';
@@ -13,6 +13,8 @@ class _EditProfileState extends State<EditProfile> {
   String _name = '';
   String _phoneNumber = '';
   late String _imagePath = ''; // Tambahkan variabel _imagePath
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
 
 
   void _updateProfile() {
@@ -109,8 +111,11 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ),
             ),
+
+
             SizedBox(height: 20),
             TextField(
+              controller : nameController,
               decoration: InputDecoration(
                 labelText: 'Nama',
                 border: OutlineInputBorder(),
@@ -121,8 +126,11 @@ class _EditProfileState extends State<EditProfile> {
                 });
               },
             ),
+
+
             SizedBox(height: 10),
             TextField(
+              controller : phoneController,
               decoration: InputDecoration(
                 labelText: 'Nomor Telepon',
                 border: OutlineInputBorder(),
@@ -142,6 +150,36 @@ class _EditProfileState extends State<EditProfile> {
           ],
         ),
       ),
+    );
+  }
+  Future<void> registerUser() async {
+    String namaMember = nameController.text;
+    String noTelp = phoneController.text;
+
+    final responseMessage = await API.editUser(namaMember, noTelp);
+
+    // Display the response message
+    showDialog(
+      context: context,
+      builder: (context) =>
+          AlertDialog(
+            title: Text('Profile Edit Result'),
+            content: Text(responseMessage),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  if (responseMessage == 'Profile Edit') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomePage()),
+                    );
+                  }
+                },
+                child: Text('OK'),
+              ),
+            ],
+          ),
     );
   }
 }
