@@ -34,13 +34,14 @@ class API {
         'passMember': passMember,
       },
     );
+    print('Response Status Code: ${response.statusCode}');
+    print('Response Body: ${response.body}');
     if (response.statusCode == 200) {
       // Successful login
-      final token = response.body; // Assuming the response contains a token
-      return token;
+      return 'Login successful';
     } else {
       // Login failed
-      return "Login failed";
+      return 'Login failed';
     }
   }
 
