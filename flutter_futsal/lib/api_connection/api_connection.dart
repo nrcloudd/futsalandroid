@@ -43,6 +43,15 @@ class API {
       return "Login failed";
     }
   }
+  
+  static Future<List<dynamic>> getLapanganData() async {
+    final response = await http.get(Uri.parse('$Connect/'));
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Gagal memuat data');
+    }
+  }
 
 }
 
