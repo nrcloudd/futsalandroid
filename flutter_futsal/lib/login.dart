@@ -4,7 +4,7 @@ import 'package:flutter_futsal/main.dart';
 import 'package:flutter_futsal/peminjaman.dart';
 import 'package:flutter_futsal/register.dart';
 import 'package:flutter_futsal/home.dart';
-import 'api_connection/api_login.dart' as login;
+import 'package:flutter_futsal/api_connection/api_connection.dart';
 import 'package:http/http.dart' as http;
 import 'splash_page.dart';
 
@@ -76,7 +76,10 @@ class _LoginState extends State<Login> {
             SizedBox(
               height: 20,
             ),
+
+            //form username
             TextFormField(
+              controller: emailController,
               decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   focusedBorder: OutlineInputBorder(
@@ -93,7 +96,10 @@ class _LoginState extends State<Login> {
             SizedBox(
               height: 20,
             ),
+
+            //form pass
             TextFormField(
+              controller: passwordController,
               obscureText: true,
               decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -119,8 +125,7 @@ class _LoginState extends State<Login> {
                 child: InkWell(
                   splashColor: Colors.white,
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomePage()));
+                    loginUser();
                   },
                   child: Center(
                     child: Text(

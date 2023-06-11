@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-
 class API {
   static const String Connect = "http://127.0.0.1:8000";
 
-  static Future<String> registerUser(
-      String namaMember, String emailMember, String passMember, String noTelp) async {
+  static Future<String> registerUser(String namaMember, String emailMember,
+      String passMember, String noTelp) async {
     final response = await http.post(
       Uri.parse('$Connect/api/register'),
       body: {
@@ -15,7 +14,6 @@ class API {
         'emailMember': emailMember,
         'passMember': passMember,
         'noTelp': noTelp,
-
       },
     );
 
@@ -44,7 +42,7 @@ class API {
       return 'Login failed';
     }
   }
-  
+
   static Future<List<dynamic>> getLapanganData() async {
     final response = await http.get(Uri.parse('$Connect/'));
     if (response.statusCode == 200) {
@@ -53,6 +51,4 @@ class API {
       throw Exception('Gagal memuat data');
     }
   }
-
 }
-
