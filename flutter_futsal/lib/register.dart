@@ -219,7 +219,6 @@ class _RegisterState extends State<Register> {
     String password = passwordController.text;
     String phone = phoneController.text;
 
-
     final responseMessage = await API.registerUser(name, email, password, phone);
 
     // Display the response message
