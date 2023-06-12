@@ -50,6 +50,7 @@ class API {
   static Future<List<dynamic>> getLapanganData() async {
     final response = await http.get(Uri.parse('$Connect/'));
     if (response.statusCode == 200) {
+      final data = jsonDecode(response.body) as List<dynamic>;
       return json.decode(response.body);
     } else {
       throw Exception('Gagal memuat data');
