@@ -5,15 +5,15 @@ import 'dart:convert';
 class API {
   static const String Connect = "http://127.0.0.1:8000";
 
-  static Future<String> registerUser(String namaMember, String emailMember,
-      String passMember, String noTelp) async {
+  static Future<String> registerUser(String name, String email, String password, /*String password_confirmation*/) async {
     final response = await http.post(
-      Uri.parse('$Connect/api/register'),
+      Uri.parse('$Connect/api/auth/register'),
       body: {
-        'namaMember': namaMember,
-        'emailMember': emailMember,
-        'passMember': passMember,
-        'noTelp': noTelp,
+        'name': name,
+        'email': email,
+        'password': password,
+       // 'password':password_confirmation,
+
       },
     );
 
@@ -24,12 +24,12 @@ class API {
     }
   }
 
-  static Future<String> loginUser(String emailMember, String passMember) async {
+  static Future<String> loginUser(String email, String password) async {
     final response = await http.post(
-      Uri.parse('$Connect/api/login'),
+      Uri.parse('$Connect/api/auth/login'),
       body: {
-        'emailMember': emailMember,
-        'passMember': passMember,
+        'email': email,
+        'password': password,
       },
     );
     print('Response Status Code: ${response.statusCode}');

@@ -28,6 +28,7 @@ class _RegisterState extends State<Register> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController password_confirmationController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -135,28 +136,26 @@ class _RegisterState extends State<Register> {
               height: 20,
             ),
 
-
-            //Form no HP
-            TextFormField(
-              controller: phoneController,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black87)),
-                  prefixIcon: Icon(
-                    Icons.phone,
-                    size: 30,
-                  ),
-                  hintText: "Masukkan No HP",
-                  hintStyle: TextStyle(color: Colors.black87),
-                  labelText: "No HP",
-                  labelStyle: TextStyle(color: Colors.black87)),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-
-
+            //password confirmed form
+            // TextFormField(
+            //   controller: password_confirmationController,
+            //   obscureText: true,
+            //   decoration: InputDecoration(
+            //       border: OutlineInputBorder(),
+            //       focusedBorder: OutlineInputBorder(
+            //           borderSide: BorderSide(color: Colors.black87)),
+            //       prefixIcon: Icon(
+            //         Icons.lock,
+            //         size: 30,
+            //       ),
+            //       hintText: "Masukkan Password",
+            //       hintStyle: TextStyle(color: Colors.black87),
+            //       labelText: "Password Confirmation",
+            //       labelStyle: TextStyle(color: Colors.black87)),
+            // ),
+            // SizedBox(
+            //   height: 20,
+            // ),
 
 
             Card(
@@ -186,13 +185,13 @@ class _RegisterState extends State<Register> {
   }
 
   Future<void> registerUser() async {
-    String namaMember = nameController.text;
-    String emailMember = emailController.text;
-    String passMember = passwordController.text;
-    String noTelp = phoneController.text;
+    String name = nameController.text;
+    String email = emailController.text;
+    String password = passwordController.text;
+    //String password_confirmation = password_confirmationController.text;
 
 
-    final responseMessage = await API.registerUser(namaMember, emailMember, passMember, noTelp);
+    final responseMessage = await API.registerUser(name, email, password, /*password_confirmation*/);
 
     // Display the response message
     showDialog(

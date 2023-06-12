@@ -156,7 +156,7 @@ class _EditProfileState extends State<EditProfile> {
     String namaMember = nameController.text;
     String noTelp = phoneController.text;
 
-    final responseMessage = await API.editUser(namaMember, noTelp);
+   /* final responseMessage = await API.editUser(namaMember, noTelp);
 
     // Display the response message
     showDialog(
@@ -180,6 +180,6 @@ class _EditProfileState extends State<EditProfile> {
               ),
             ],
           ),
-    );
+    );*/
   }
 }

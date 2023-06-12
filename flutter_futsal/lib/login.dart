@@ -166,10 +166,10 @@ class _LoginState extends State<Login> {
   }
 
   Future<void> loginUser() async {
-    String emailMember = emailController.text;
-    String passMember = passwordController.text;
+    String email = emailController.text;
+    String password = passwordController.text;
 
-    final responseMessage = await API.loginUser(emailMember, passMember);
+    final responseMessage = await API.loginUser(email, password);
 
     // Display the response message
     showDialog(
@@ -181,8 +181,7 @@ class _LoginState extends State<Login> {
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
-              if (responseMessage ==
-                  'Login Successful !!! Selamat Datang dan Silahkan Melakukan Pemesanan di FUTZONE') {
+              if (responseMessage == 'Login successful') {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => HomePage()),
