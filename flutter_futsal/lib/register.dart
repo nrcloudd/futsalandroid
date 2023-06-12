@@ -3,6 +3,8 @@ import 'package:flutter_futsal/login.dart';
 import 'package:flutter_futsal/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_futsal/api_connection/api_connection.dart';
+import 'package:flutter/gestures.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -136,26 +138,26 @@ class _RegisterState extends State<Register> {
               height: 20,
             ),
 
-            //password confirmed form
-            // TextFormField(
-            //   controller: password_confirmationController,
-            //   obscureText: true,
-            //   decoration: InputDecoration(
-            //       border: OutlineInputBorder(),
-            //       focusedBorder: OutlineInputBorder(
-            //           borderSide: BorderSide(color: Colors.black87)),
-            //       prefixIcon: Icon(
-            //         Icons.lock,
-            //         size: 30,
-            //       ),
-            //       hintText: "Masukkan Password",
-            //       hintStyle: TextStyle(color: Colors.black87),
-            //       labelText: "Password Confirmation",
-            //       labelStyle: TextStyle(color: Colors.black87)),
-            // ),
-            // SizedBox(
-            //   height: 20,
-            // ),
+            //form phone
+            TextFormField(
+              controller: password_confirmationController,
+              obscureText: true,
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black87)),
+                  prefixIcon: Icon(
+                    Icons.lock,
+                    size: 30,
+                  ),
+                  hintText: "No HP",
+                  hintStyle: TextStyle(color: Colors.black87),
+                  labelText: "Masukan No HP",
+                  labelStyle: TextStyle(color: Colors.black87)),
+            ),
+            SizedBox(
+              height: 20,
+            ),
 
 
             Card(
@@ -178,6 +180,33 @@ class _RegisterState extends State<Register> {
                 ),
               ),
             ),
+            RichText(
+              text: TextSpan(
+                text: "Already have an account? ",
+                style: TextStyle(fontSize: 16, color: Colors.black),
+                children: [
+                  TextSpan(
+                    text: 'Log in',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.blue,
+                      decoration: TextDecoration.underline,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        // Handle the registration button press here
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Login(),
+                          ),
+                        );
+                      },
+                  ),
+                ],
+              ),
+            ),
+
           ],
         ),
       ),
