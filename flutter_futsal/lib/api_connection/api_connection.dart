@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+
 class API {
   static const String Connect = "http://127.0.0.1:8000";
 
-  static Future<String> registerUser(String name, String email, String password, /*String password_confirmation*/) async {
+  static Future<String> registerUser(
+      String namaMember, String emailMember, String passMember, String noTelp) async {
     final response = await http.post(
-      Uri.parse('$Connect/api/auth/register'),
+      Uri.parse('$Connect/api/register'),
       body: {
-        'name': name,
-        'email': email,
-        'password': password,
-       // 'password':password_confirmation,
+        'namaMember': namaMember,
+        'emailMember': emailMember,
+        'passMember': passMember,
+        'noTelp': noTelp,
 
       },
     );
@@ -24,12 +26,12 @@ class API {
     }
   }
 
-  static Future<String> loginUser(String email, String password) async {
+  static Future<String> loginUser(String emailMember, String passMember) async {
     final response = await http.post(
-      Uri.parse('$Connect/api/auth/login'),
+      Uri.parse('$Connect/api/login'),
       body: {
-        'email': email,
-        'password': password,
+        'emailMember': emailMember,
+        'passMember': passMember,
       },
     );
     print('Response Status Code: ${response.statusCode}');
@@ -42,6 +44,8 @@ class API {
       return 'Login failed';
     }
   }
+  
+ 
 
   static Future<List<dynamic>> getLapanganData() async {
     final response = await http.get(Uri.parse('$Connect/'));
@@ -52,3 +56,4 @@ class API {
     }
   }
 }
+
