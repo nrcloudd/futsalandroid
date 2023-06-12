@@ -30,7 +30,6 @@ class _RegisterState extends State<Register> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController password_confirmationController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -141,18 +140,17 @@ class _RegisterState extends State<Register> {
             //form phone
             TextFormField(
               controller: phoneController,
-              obscureText: true,
               decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.black87)),
                   prefixIcon: Icon(
-                    Icons.lock,
+                    Icons.person_outline_outlined,
                     size: 30,
                   ),
-                  hintText: "No HP",
+                  hintText: "Masukan No HP",
                   hintStyle: TextStyle(color: Colors.black87),
-                  labelText: "Masukan No HP",
+                  labelText: "No HP",
                   labelStyle: TextStyle(color: Colors.black87)),
             ),
             SizedBox(

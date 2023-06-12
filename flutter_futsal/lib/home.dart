@@ -32,7 +32,7 @@ class _statusState extends State<HomePage> {
 
   Future<void> getLapanganData() async {
     try {
-      final data = await API.getLapanganData();
+      final data = await TampilLapangan.getLapanganData();
       setState(() {
         products = data;
       });
