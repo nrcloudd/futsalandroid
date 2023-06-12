@@ -170,5 +170,29 @@ class _LoginState extends State<Login> {
     String passMember = passwordController.text;
 
     final responseMessage = await API.loginUser(emailMember, passMember);
+
+    // Display the response message
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Login Result'),
+        content: Text(responseMessage),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              if (responseMessage ==
+                  'Login Successful !!! Selamat Datang dan Silahkan Melakukan Pemesanan di FUTZONE') {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
+              }
+            },
+            child: Text('Next'),
+          ),
+        ],
+      ),
+    );
   }
 }
