@@ -7,14 +7,14 @@ class API {
   static const String Connect = "http://127.0.0.1:8000";
 
   static Future<String> registerUser(
-      String namaMember, String emailMember, String passMember, String noTelp) async {
+      String name, String email, String password, String phone) async {
     final response = await http.post(
       Uri.parse('$Connect/api/register'),
       body: {
-        'namaMember': namaMember,
-        'emailMember': emailMember,
-        'passMember': passMember,
-        'noTelp': noTelp,
+        'name': name,
+        'email': email,
+        'password': password,
+        'phone': phone,
 
       },
     );

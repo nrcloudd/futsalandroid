@@ -140,7 +140,7 @@ class _RegisterState extends State<Register> {
 
             //form phone
             TextFormField(
-              controller: password_confirmationController,
+              controller: phoneController,
               obscureText: true,
               decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -217,10 +217,10 @@ class _RegisterState extends State<Register> {
     String name = nameController.text;
     String email = emailController.text;
     String password = passwordController.text;
-    //String password_confirmation = password_confirmationController.text;
+    String phone = phoneController.text;
 
 
-    final responseMessage = await API.registerUser(name, email, password, /*password_confirmation*/);
+    final responseMessage = await API.registerUser(name, email, password, phone);
 
     // Display the response message
     showDialog(
