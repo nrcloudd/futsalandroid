@@ -4,7 +4,7 @@ import 'main.dart';
 import 'peminjaman.dart';
 import 'login.dart';
 import 'editProfile.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'api_connection/api_connection.dart';
 
 class Product {
   final String title;
@@ -12,28 +12,23 @@ class Product {
   Product(this.title);
 }
 
-
-
 class HomePage extends StatelessWidget {
-  final List<Product> products = [
-    Product('Lapangan 1'),
-    Product('Lapangan 2'),
-    Product('Lapangan 3'),
-    Product('Lapangan 4'),
-    Product('Lapangan 5'),
-  ];
+  final List<dynamic> products = [];
 
+  Future <void> getLapanganData() async{
+    try {
+      final data = await API.getLapanganData();
+      setState((){
+        products = data;
+      })
+    }
+  }
   @override
   Widget build(BuildContext context) {
-
-
-
     return Scaffold(
-
       appBar: AppBar(
         title: Text('Home'),
       ),
-
       drawer: Drawer(
         child: ListView(
           children: [
@@ -161,51 +156,9 @@ class HomePage extends StatelessWidget {
           }
         },
       ),
-
-
-
-      floatingActionButton: Builder(
-        builder: (context) => FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: Text('Phone Number'),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text('Please enter your phone number:'),
-                    TextField(
-                      decoration: InputDecoration(labelText: 'Phone Number'),
-                    ),
-                  ],
-                ),
-                actions: [
-                  ElevatedButton(
-                    child: Text('Submit'),
-                    onPressed: () {
-                      // Handle the form submission here
-                      // You can access the entered phone number using the TextField's controller
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
-      ),
-
     );
-
-
-
-
-
   }
 }
-
 
 // class HistoryPage extends StatelessWidget {
 //   @override
