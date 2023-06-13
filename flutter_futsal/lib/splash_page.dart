@@ -35,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   void navigationPage() {
     Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (_) => HomePage()));
+        .pushReplacement(MaterialPageRoute(builder: (_) => Login()));
   }
 
   Widget build(BuildContext context) {
