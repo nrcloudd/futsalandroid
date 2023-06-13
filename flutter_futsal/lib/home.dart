@@ -40,6 +40,16 @@ class _statusState extends State<HomePage> {
       print(e);
     }
   }
+  Future<void> getUser() async{
+    try {
+      final data = await TampilLapangan.getLapanganData();
+      setState(() {
+        products = data;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
