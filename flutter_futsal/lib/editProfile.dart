@@ -147,6 +147,7 @@ class _EditProfileState extends State<EditProfile> {
               onPressed: _updateProfile,
               child: Text('Update'),
             ),
+
           ],
         ),
       ),
