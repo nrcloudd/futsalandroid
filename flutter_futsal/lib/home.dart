@@ -4,6 +4,9 @@ import 'main.dart';
 import 'peminjaman.dart';
 import 'login.dart';
 import 'editProfile.dart';
+import 'api_connection/api_connection.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
 
 class Product {
   final String title;
@@ -11,14 +14,42 @@ class Product {
   Product(this.title);
 }
 
-class HomePage extends StatelessWidget {
-  final List<Product> products = [
-    Product('Lapangan 1'),
-    Product('Lapangan 2'),
-    Product('Lapangan 3'),
-    Product('Lapangan 4'),
-    Product('Lapangan 5'),
-  ];
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _statusState();
+}
+
+class _statusState extends State<HomePage> {
+  List<dynamic> products = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getLapanganData();
+  }
+
+  Future<void> getLapanganData() async {
+    try {
+      final data = await TampilLapangan.getLapanganData();
+      setState(() {
+        products = data;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+  Future<void> getUser() async{
+    try {
+      final data = await TampilLapangan.getLapanganData();
+      setState(() {
+        products = data;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +74,9 @@ class HomePage extends StatelessWidget {
                       child: InkWell(
                         onTap: () {
                           Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => EditProfile())
-                          );
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditProfile()));
                         },
                       ),
                     ),
@@ -91,49 +122,59 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      body: GridView.count(
-        crossAxisCount: 2, // Jumlah kolom
-        children: List.generate(products.length, (index) {
+      body: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, // Jumlah kolom
+        ),
+        itemCount: products.length,
+        itemBuilder: (context, index) {
+          // Mengganti 'products' dengan data yang diambil dari database Laravel
+          var product = products[index];
+
           return Card(
-              child: ListTile(
-                  title: Stack(
-                    children: [
-                      Image.asset(
-                        'assets/images/IMG2.jpg', // Path file gambar default
-                      ),
-                      Positioned.fill(
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              products[index].title,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+            child: ListTile(
+              title: Stack(
+                children: [
+                  Image.asset(
+                    'assets/images/IMG2.jpg',
+                  ),
+                  Positioned.fill(
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          product[
+                              'namaLapangan'], // Menggunakan kolom 'namaLapangan' dari data
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                    ],
+                    ),
                   ),
-                  subtitle: ButtonBar(
-                    children: [
-                      ElevatedButton(
-                          child: Text('Pinjam'),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => PeminjamanPage(),
-                              ),
-                            );
-                          }),
-                    ],
-                  )));
-        }),
+                ],
+              ),
+              subtitle: ButtonBar(
+                children: [
+                  ElevatedButton(
+                    child: Text('Pinjam'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PeminjamanPage(),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[

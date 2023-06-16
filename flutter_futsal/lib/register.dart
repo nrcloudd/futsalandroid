@@ -3,6 +3,8 @@ import 'package:flutter_futsal/login.dart';
 import 'package:flutter_futsal/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_futsal/api_connection/api_connection.dart';
+import 'package:flutter/gestures.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -135,8 +137,7 @@ class _RegisterState extends State<Register> {
               height: 20,
             ),
 
-
-            //Form no HP
+            //form phone
             TextFormField(
               controller: phoneController,
               decoration: InputDecoration(
@@ -144,10 +145,10 @@ class _RegisterState extends State<Register> {
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.black87)),
                   prefixIcon: Icon(
-                    Icons.phone,
+                    Icons.person_outline_outlined,
                     size: 30,
                   ),
-                  hintText: "Masukkan No HP",
+                  hintText: "Masukan No HP",
                   hintStyle: TextStyle(color: Colors.black87),
                   labelText: "No HP",
                   labelStyle: TextStyle(color: Colors.black87)),
@@ -155,8 +156,6 @@ class _RegisterState extends State<Register> {
             SizedBox(
               height: 20,
             ),
-
-
 
 
             Card(
@@ -179,6 +178,33 @@ class _RegisterState extends State<Register> {
                 ),
               ),
             ),
+            RichText(
+              text: TextSpan(
+                text: "Already have an account? ",
+                style: TextStyle(fontSize: 16, color: Colors.black),
+                children: [
+                  TextSpan(
+                    text: 'Log in',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.blue,
+                      decoration: TextDecoration.underline,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        // Handle the registration button press here
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Login(),
+                          ),
+                        );
+                      },
+                  ),
+                ],
+              ),
+            ),
+
           ],
         ),
       ),
@@ -186,13 +212,12 @@ class _RegisterState extends State<Register> {
   }
 
   Future<void> registerUser() async {
-    String namaMember = nameController.text;
-    String emailMember = emailController.text;
-    String passMember = passwordController.text;
-    String noTelp = phoneController.text;
+    String name = nameController.text;
+    String email = emailController.text;
+    String password = passwordController.text;
+    String phone = phoneController.text;
 
-
-    final responseMessage = await API.registerUser(namaMember, emailMember, passMember, noTelp);
+    final responseMessage = await API.registerUser(name, email, password, phone);
 
     // Display the response message
     showDialog(

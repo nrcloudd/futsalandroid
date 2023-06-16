@@ -195,7 +195,7 @@ class _SewaLapanganPageState extends State<PeminjamanPage> {
   }
 
   void _submitTransaksi() {
-    // Lakukan logika penyimpanan ke database di sini
+    // Lakukan logika  enyimpanan ke database di sini
     // Jika berhasil, tampilkan pop-up "Transaksi berhasil"
     // Jika gagal, tampilkan pop-up "Transaksi gagal"
     showDialog(

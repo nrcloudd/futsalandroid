@@ -7,6 +7,8 @@ import 'package:flutter_futsal/home.dart';
 import 'package:flutter_futsal/api_connection/api_connection.dart';
 import 'package:http/http.dart' as http;
 import 'splash_page.dart';
+import 'package:flutter/gestures.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -139,24 +141,31 @@ class _LoginState extends State<Login> {
             SizedBox(
               height: 20,
             ),
-            Card(
-              color: Colors.lightBlue,
-              elevation: 5,
-              child: Container(
-                height: 50,
-                child: InkWell(
-                  splashColor: Colors.white,
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Register()));
-                  },
-                  child: Center(
-                    child: Text(
-                      "Register",
-                      style: TextStyle(fontSize: 20, color: Colors.white),
+
+            RichText(
+              text: TextSpan(
+                text: "Don't have an account? ",
+                style: TextStyle(fontSize: 16, color: Colors.black),
+                children: [
+                  TextSpan(
+                    text: 'Register',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.blue,
+                      decoration: TextDecoration.underline,
                     ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        // Handle the registration button press here
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Register(),
+                          ),
+                        );
+                      },
                   ),
-                ),
+                ],
               ),
             ),
           ],
@@ -166,10 +175,10 @@ class _LoginState extends State<Login> {
   }
 
   Future<void> loginUser() async {
-    String emailMember = emailController.text;
-    String passMember = passwordController.text;
+    String email = emailController.text;
+    String password = passwordController.text;
 
-    final responseMessage = await API.loginUser(emailMember, passMember);
+    final responseMessage = await API.loginUser(email, password);
 
     // Display the response message
     showDialog(
@@ -181,8 +190,7 @@ class _LoginState extends State<Login> {
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
-              if (responseMessage ==
-                  'Login Successful !!! Selamat Datang dan Silahkan Melakukan Pemesanan di FUTZONE') {
+              if (responseMessage == 'Login successful') {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => HomePage()),
