@@ -65,11 +65,11 @@ class _RegisterState extends State<Register> {
             ),
             Text(
               "Selamat Datang di FUTZONE",
-              style: TextStyle(fontSize: 20, color: Colors.black87),
+              style: TextStyle(fontSize: 20, color: Colors.black87, fontFamily: 'Acme'),
             ),
             Text(
               "User Register",
-              style: TextStyle(fontSize: 20, color: Colors.black87),
+              style: TextStyle(fontSize: 20, color: Colors.black87, fontFamily: 'Acme'),
             ),
             SizedBox(
               height: 20,
