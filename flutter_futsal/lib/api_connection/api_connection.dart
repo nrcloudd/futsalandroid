@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 
 class API {
   static const String Connect = "http://127.0.0.1:8000";
 
-  static Future<String> registerUser(
+  Future<String> registerUser(
       String name, String email, String password, String phone) async {
     final response = await http.post(
       Uri.parse('$Connect/api/auth/register'),
@@ -28,7 +29,7 @@ class API {
     }
   }
 
-  static Future<String> loginUser(String email, String password) async {
+  Future<String> loginUser(String email, String password) async {
     final response = await http.post(
       Uri.parse('$Connect/api/auth/login'),
       body: {
@@ -40,13 +41,34 @@ class API {
     print('Response Body: ${response.body}');
     if (response.statusCode == 200) {
       // Successful login
+      final jsonResponse = json.decode(response.body);
+        final user = jsonResponse['user'];
+
+        // Simpan setiap elemen di dalam user ke SharedPreferences
+        await saveUserToSharedPreferences(user);
       return 'Login successful';
     } else {
       // Login failed
       return 'Login failed';
     }
   }
+ Future<void> saveUserToSharedPreferences(Map<String, dynamic> user) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
 
+      await prefs.setInt('user_id', int.parse(user['id'].toString()));
+      await prefs.setString('user_name', user['name']);
+      await prefs.setString('user_email', user['email']);
+      
+      final userName = prefs.getString('user_name');
+      final userEmail = prefs.getString('user_email');
+      print('$userName');
+      print('$userEmail');
+    } catch (e) {
+      print('$e');
+      throw Exception('Failed to save user data');
+    }
+  }
 
 }
 class TampilLapangan {

@@ -216,31 +216,40 @@ class _RegisterState extends State<Register> {
     String email = emailController.text;
     String password = passwordController.text;
     String phone = phoneController.text;
+    API authService = API();
 
-    final responseMessage = await API.registerUser(name, email, password, phone);
+    // final responseMessage = await API.registerUser(name, email, password, phone);
 
     // Display the response message
-    showDialog(
+    
+     try {
+      await authService.registerUser(name, email, password, phone);
+      String responseMessage= 'Register Succesfull';
+     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Registration Result'),
+        title: Text('Register Result'),
         content: Text(responseMessage),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
-              if (responseMessage == 'Registration successful') {
+              if (responseMessage == 'Register successful') {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Login()),
                 );
               }
             },
-            child: Text('OK'),
+            child: Text('Next'),
           ),
         ],
       ),
     );
+    } catch (e) {
+    print(e);
+    
+  }
   }
 }
 

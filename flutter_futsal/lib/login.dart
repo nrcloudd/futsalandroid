@@ -177,11 +177,13 @@ class _LoginState extends State<Login> {
   Future<void> loginUser() async {
     String email = emailController.text;
     String password = passwordController.text;
+     API authService = API();
 
-    final responseMessage = await API.loginUser(email, password);
-
-    // Display the response message
-    showDialog(
+    // final responseMessage = await API.loginUser(email, password);
+     try {
+      await authService.loginUser(email, password);
+      String responseMessage= 'Login succesful';
+     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: Text('Login Result'),
@@ -189,18 +191,22 @@ class _LoginState extends State<Login> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop();
-              if (responseMessage == 'Login successful') {
+              // Navigator.of(context).pop();
+             
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => HomePage()),
                 );
               }
-            },
+            ,
             child: Text('Next'),
           ),
         ],
       ),
     );
+    } catch (e) {
+    print(e);
+    
   }
+}
 }

@@ -7,6 +7,8 @@ import 'editProfile.dart';
 import 'api_connection/api_connection.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class Product {
   final String title;
@@ -23,12 +25,33 @@ class HomePage extends StatefulWidget {
 
 class _statusState extends State<HomePage> {
   List<dynamic> products = [];
-
+  String userName = '';
   @override
   void initState() {
     super.initState();
     getLapanganData();
+    getUserData();
   }
+
+  Future<void> getUserData() async {
+  try {
+    final prefs = await SharedPreferences.getInstance();
+
+    final userId = prefs.getInt('user_id');
+    final userName = prefs.getString('user_name');
+    final userEmail = prefs.getString('user_email');
+
+    setState(() {
+      this.userName = userName ?? '';
+    });
+
+    print('User Name: $userName');
+  } catch (e) {
+    print('$e');
+    throw Exception('Failed to get user data');
+  }
+}
+
 
   Future<void> getLapanganData() async {
     try {
@@ -82,7 +105,7 @@ class _statusState extends State<HomePage> {
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'Welcome, ...!',
+                      'Welcome,$userName',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
