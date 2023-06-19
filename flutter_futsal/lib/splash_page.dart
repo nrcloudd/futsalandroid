@@ -1,6 +1,7 @@
 import 'package:flutter_futsal/home.dart';
-
+import 'nyoba.dart';
 import 'login.dart';
+import 'peminjaman.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -35,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   void navigationPage() {
     Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (_) => Login()));
+        .pushReplacement(MaterialPageRoute(builder: (_) => PeminjamanPage()));
   }
 
   Widget build(BuildContext context) {
