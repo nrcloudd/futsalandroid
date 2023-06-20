@@ -246,7 +246,8 @@ class _RegisterState extends State<Register> {
         ],
       ),
     );
-    } catch (e) {
+    }
+    catch (e) {
     print(e);
     
   }

@@ -49,6 +49,7 @@ class API {
       // Login failed
       return 'Login failed';
     }
+
   }
 
   Future<void> saveUserToSharedPreferences(Map<String, dynamic> user) async {
@@ -68,7 +69,26 @@ class API {
       throw Exception('Failed to save user data');
     }
   }
-}
+
+
+  Future<String> updateProfile(String name, String phone) async {
+    final response = await http.put(
+      Uri.parse('$Connect/api/auth/update'),
+      body: {
+        'name': name,
+        'phone': phone,
+      },
+    );
+    print('Response Status Code: ${response.statusCode}');
+    print('Response Body: ${response.body}');
+
+    if (response.statusCode == 201) {
+      return 'Edit successful'; // Replace with your success message
+    } else {
+      return 'Edit failed '; // Replace with your failure message
+    }
+  }
+  }
 
 class TampilLapangan {
   static Future<List<dynamic>> getLapanganData() async {

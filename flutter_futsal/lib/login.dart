@@ -181,8 +181,7 @@ class _LoginState extends State<Login> {
 
     // final responseMessage = await API.loginUser(email, password);
      try {
-      await authService.loginUser(email, password);
-      String responseMessage= 'Login succesful';
+      String responseMessage= await authService.loginUser(email, password);
      showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -192,13 +191,14 @@ class _LoginState extends State<Login> {
           TextButton(
             onPressed: () {
               // Navigator.of(context).pop();
-             
+              Navigator.of(context).pop();
+              if (responseMessage == 'Login successful') {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => HomePage()),
                 );
               }
-            ,
+            },
             child: Text('Next'),
           ),
         ],
