@@ -139,3 +139,28 @@ class transaksiSubmit {
     }
   }
 }
+
+// class TipeLapanganService {
+//   static Future<dynamic> show() async {
+//     try {
+//       final response = await http.get(Uri.parse('http://127.0.0.1:8000/api/tipe/show'));
+
+//       if (response.statusCode == 200) {
+//         final data = jsonDecode(response.body) as Map<String, dynamic>;
+//         final success = data['success'];
+//         final message = data['message'];
+//         final tipeLapanganData = data['data'];
+
+//         if (success) {
+//           return tipeLapanganData;
+//         } else {
+//           throw Exception('Data Tipe Lapangan Tidak Ditemukan!');
+//         }
+//       } else {
+//         throw Exception('Gagal memuat data');
+//       }
+//     } catch (error) {
+//       throw Exception('Terjadi kesalahan: $error');
+//     }
+//   }
+// }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_futsal/api_connection/api_connection.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PeminjamanPage extends StatefulWidget {
   
@@ -15,7 +16,9 @@ class PeminjamanPage extends StatefulWidget {
 }
 
 class _SewaLapanganPageState extends State<PeminjamanPage> {
-  
+  List<dynamic> form = [];
+
+
   File? _pickedImage;
   late String _selectedDate;
   late String _selectedTime;
@@ -36,6 +39,8 @@ class _SewaLapanganPageState extends State<PeminjamanPage> {
   TextEditingController _hargaController = TextEditingController();
 TextEditingController _lapanganController = TextEditingController();
 TextEditingController _tipeController = TextEditingController();
+String userName = '';
+
 @override
   void dispose() {
     _startTimeController.dispose();
@@ -43,15 +48,42 @@ TextEditingController _tipeController = TextEditingController();
     _hargaController.dispose();
     super.dispose();
   }
+  Future<void> getUserData() async {
+  try {
+    final prefs = await SharedPreferences.getInstance();
+
+    final userId = prefs.getInt('user_id');
+    final userName = prefs.getString('user_name');
+    final userEmail = prefs.getString('user_email');
+
+    setState(() {
+      this.userName = userName ?? '';
+      _namaController.text = userName ?? '';
+    });
+
+    print('User Name: $userName');
+  } catch (e) {
+    print('$e');
+    throw Exception('Failed to get user data');
+  }
+}
+
   void initState() {
     super.initState();
     print('ID: ${widget.id}');
     getData();
+    getUserData();
   }
-   void getData() async {
+  
+ void getData() async {
   try {
     final lapanganData = await LapanganService.show(widget.id);
-    print(lapanganData); // Print the lapanganData inside the try block
+    setState(() {
+      form = lapanganData;
+      _lapanganController.text = form[0]['namaLapangan'].toString();
+      _tipeController.text = form[0]['tipe'].toString();
+      print(lapanganData);
+    });
     // Process lapanganData according to your needs
   } catch (error) {
     print(error);
@@ -88,18 +120,36 @@ Future<void> _selectStartTime(BuildContext context) async {
       });
     }
   }
+Future<void> _calculateHarga() {
+  if (_selectedStartTime != null && _selectedEndTime != null) {
+    final int minDifference = _selectedEndTime.minute - _selectedStartTime.minute;
+    final int hourDifference = (_selectedEndTime.hour - _selectedStartTime.hour) * 60;
+    final int totalMinutes = minDifference + hourDifference;
 
- void _calculateHarga() {
-    if (_selectedStartTime != null && _selectedEndTime != null) {
-      final int minDifference= 
-          _selectedEndTime.minute - _selectedStartTime.minute;      
-      final int hourDifference =
-          (_selectedEndTime.hour - _selectedStartTime.hour)*60;
-      final double harga = (minDifference + hourDifference) * 100000/60;
+    final int harga = form[0]['harga']; // Assuming 'harga' is the field name in the JSON data
 
-      _hargaController.text = harga.toString();
-    }
+    final int hargaKotor = totalMinutes * harga;
+    final double totalHarga = hargaKotor / 60;
+
+    _hargaController.text = totalHarga.toString();
   }
+
+  return Future<void>.value();
+}
+
+
+
+//  Future<void> getData() async {
+//     try {
+//       final data = await TipeLapanganService.getLapanganData();
+//       setState(() {
+//         form = data;
+//         print(data);
+//       });
+//     } catch (e) {
+//       print(e);
+//     }
+//   }
 
 
   @override
