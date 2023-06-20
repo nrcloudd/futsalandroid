@@ -34,7 +34,8 @@ class _SewaLapanganPageState extends State<PeminjamanPage> {
    TextEditingController _startTimeController = TextEditingController();
   TextEditingController _endTimeController = TextEditingController();
   TextEditingController _hargaController = TextEditingController();
-
+TextEditingController _lapanganController = TextEditingController();
+TextEditingController _tipeController = TextEditingController();
 @override
   void dispose() {
     _startTimeController.dispose();
@@ -127,13 +128,21 @@ Future<void> _selectStartTime(BuildContext context) async {
                   labelText: 'Nama',
                 ),
               ),
-              SizedBox(height: 16.0),
-              // ElevatedButton(
-              //   child: Text('Pilih Jam Awal'),
-              //   onPressed: () {
-              //     _selectTime(context);
-              //   },
-              // ),
+               TextField(
+                controller: _lapanganController,
+                readOnly: true,
+                decoration: InputDecoration(
+                  labelText: 'Nama Lapangan',
+                ),
+              ),
+              TextField(
+                controller: _tipeController,
+                readOnly: true,
+                decoration: InputDecoration(
+                  labelText: 'Tipe Lapangan',
+                ),
+              ),
+              SizedBox(height: 20.0),
              TextField(
               controller: _startTimeController,
               readOnly: true,
@@ -152,7 +161,7 @@ Future<void> _selectStartTime(BuildContext context) async {
                 suffixIcon: Icon(Icons.access_time),
               ),
             ),
-              SizedBox(height: 16.0),
+              SizedBox(height: 20.0),
               TextField(
                 controller: _dateController,
                 readOnly: true,
