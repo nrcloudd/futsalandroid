@@ -90,12 +90,15 @@ class TampilLapangan {
     }
   }
 }
+
 class LapanganService {
   static Future<dynamic> show(int id) async {
     try {
       final response = await http.post(
         Uri.parse('http://127.0.0.1:8000/api/field/show2'),
-        body: {'id': id.toString()}, // Convert id to String before sending it in the request body
+        body: {
+          'id': id.toString()
+        }, // Convert id to String before sending it in the request body
       );
 
       if (response.statusCode == 200) {
@@ -116,51 +119,29 @@ class LapanganService {
       throw Exception('Terjadi kesalahan: $error');
     }
   }
-}
+}class TransaksiSubmit {
+  static Future<void> createTransaksi(Map<String, String> data) async {
+    final apiUrl = 'http://127.0.0.1:8000/api/trans/store';
 
-class transaksiSubmit {
-  static Future<String> transaksi(String jamA, String jamB, String tanggal,
-      String total_bayar, String bukti_bayar) async {
-    final response = await http.post(
-      Uri.parse('http://127.0.0.1:8000/api/trans/store'),
-      body: {
-        'jamAwal': jamA,
-        'jamAkhir': jamB,
-        'tanggal': tanggal,
-        'total_bayar': total_bayar,
-      },
-    );
-    print('Response Status Code: ${response.statusCode}');
-    print('Response Body: ${response.body}');
-    if (response.statusCode == 201) {
-      return 'Transaction successful'; // Replace with your success message
-    } else {
-      return 'Transaction failed '; // Replace with your failure message
+    try {
+      var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
+      request.fields.addAll(data);
+
+      var response = await request.send();
+
+      if (response.statusCode == 201) {
+        final responseData = await response.stream.bytesToString();
+        print(responseData);
+      } else {
+        print('Failed to create transaksi: ${response.statusCode}');
+        throw Exception('Failed to create transaksi');
+      }
+    } catch (e) {
+      print(data);
+      print('$e');
+      throw Exception('Failed to create transaksi');
     }
   }
 }
 
-// class TipeLapanganService {
-//   static Future<dynamic> show() async {
-//     try {
-//       final response = await http.get(Uri.parse('http://127.0.0.1:8000/api/tipe/show'));
 
-//       if (response.statusCode == 200) {
-//         final data = jsonDecode(response.body) as Map<String, dynamic>;
-//         final success = data['success'];
-//         final message = data['message'];
-//         final tipeLapanganData = data['data'];
-
-//         if (success) {
-//           return tipeLapanganData;
-//         } else {
-//           throw Exception('Data Tipe Lapangan Tidak Ditemukan!');
-//         }
-//       } else {
-//         throw Exception('Gagal memuat data');
-//       }
-//     } catch (error) {
-//       throw Exception('Terjadi kesalahan: $error');
-//     }
-//   }
-// }

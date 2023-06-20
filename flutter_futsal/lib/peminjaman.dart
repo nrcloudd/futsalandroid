@@ -2,12 +2,14 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_futsal/api_connection/api_connection.dart';
+import 'package:flutter_futsal/home.dart';
+import 'package:flutter_futsal/login.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PeminjamanPage extends StatefulWidget {
-  
   final int id;
 
   PeminjamanPage({required this.id});
@@ -18,7 +20,6 @@ class PeminjamanPage extends StatefulWidget {
 class _SewaLapanganPageState extends State<PeminjamanPage> {
   List<dynamic> form = [];
 
-
   File? _pickedImage;
   late String _selectedDate;
   late String _selectedTime;
@@ -28,45 +29,47 @@ class _SewaLapanganPageState extends State<PeminjamanPage> {
   TimeOfDay _selectedStartTime = TimeOfDay.now();
   TimeOfDay _selectedEndTime = TimeOfDay.now();
 
-  
   TextEditingController _namaController = TextEditingController();
   TextEditingController _totalBayarController = TextEditingController();
   TextEditingController _sisaBayarController = TextEditingController();
   TextEditingController _dateController = TextEditingController();
   TextEditingController _timeController = TextEditingController();
-   TextEditingController _startTimeController = TextEditingController();
+  TextEditingController _startTimeController = TextEditingController();
   TextEditingController _endTimeController = TextEditingController();
   TextEditingController _hargaController = TextEditingController();
-TextEditingController _lapanganController = TextEditingController();
-TextEditingController _tipeController = TextEditingController();
-String userName = '';
+  TextEditingController _lapanganController = TextEditingController();
+  TextEditingController _tipeController = TextEditingController();
+  TextEditingController _buktiBayarController = TextEditingController();
 
-@override
+  String userName = '';
+
+  @override
   void dispose() {
     _startTimeController.dispose();
     _endTimeController.dispose();
     _hargaController.dispose();
     super.dispose();
   }
+
   Future<void> getUserData() async {
-  try {
-    final prefs = await SharedPreferences.getInstance();
+    try {
+      final prefs = await SharedPreferences.getInstance();
 
-    final userId = prefs.getInt('user_id');
-    final userName = prefs.getString('user_name');
-    final userEmail = prefs.getString('user_email');
+      final userId = prefs.getInt('user_id');
+      final userName = prefs.getString('user_name');
+      final userEmail = prefs.getString('user_email');
 
-    setState(() {
-      this.userName = userName ?? '';
-      _namaController.text = userName ?? '';
-    });
+      setState(() {
+        this.userName = userName ?? '';
+        _namaController.text = userName ?? '';
+      });
 
-    print('User Name: $userName');
-  } catch (e) {
-    print('$e');
-    throw Exception('Failed to get user data');
+      print('User Name: $userName');
+    } catch (e) {
+      print('$e');
+      throw Exception('Failed to get user data');
+    }
   }
-}
 
   void initState() {
     super.initState();
@@ -74,24 +77,23 @@ String userName = '';
     getData();
     getUserData();
   }
-  
- void getData() async {
-  try {
-    final lapanganData = await LapanganService.show(widget.id);
-    setState(() {
-      form = lapanganData;
-      _lapanganController.text = form[0]['namaLapangan'].toString();
-      _tipeController.text = form[0]['tipe'].toString();
-      print(lapanganData);
-    });
-    // Process lapanganData according to your needs
-  } catch (error) {
-    print(error);
+
+  void getData() async {
+    try {
+      final lapanganData = await LapanganService.show(widget.id);
+      setState(() {
+        form = lapanganData;
+        _lapanganController.text = form[0]['namaLapangan'].toString();
+        _tipeController.text = form[0]['tipe'].toString();
+        print(lapanganData);
+      });
+      // Process lapanganData according to your needs
+    } catch (error) {
+      print(error);
+    }
   }
-}
 
-
-Future<void> _selectStartTime(BuildContext context) async {
+  Future<void> _selectStartTime(BuildContext context) async {
     final TimeOfDay? selectedTime = await showTimePicker(
       context: context,
       initialTime: _selectedStartTime,
@@ -120,24 +122,26 @@ Future<void> _selectStartTime(BuildContext context) async {
       });
     }
   }
-Future<void> _calculateHarga() {
-  if (_selectedStartTime != null && _selectedEndTime != null) {
-    final int minDifference = _selectedEndTime.minute - _selectedStartTime.minute;
-    final int hourDifference = (_selectedEndTime.hour - _selectedStartTime.hour) * 60;
-    final int totalMinutes = minDifference + hourDifference;
 
-    final int harga = form[0]['harga']; // Assuming 'harga' is the field name in the JSON data
+  Future<void> _calculateHarga() {
+    if (_selectedStartTime != null && _selectedEndTime != null) {
+      final int minDifference =
+          _selectedEndTime.minute - _selectedStartTime.minute;
+      final int hourDifference =
+          (_selectedEndTime.hour - _selectedStartTime.hour) * 60;
+      final int totalMinutes = minDifference + hourDifference;
 
-    final int hargaKotor = totalMinutes * harga;
-    final double totalHarga = hargaKotor / 60;
+      final int harga = form[0]
+          ['harga']; // Assuming 'harga' is the field name in the JSON data
 
-    _hargaController.text = totalHarga.toString();
+      final int hargaKotor = totalMinutes * harga;
+      final double totalHarga = hargaKotor / 60;
+
+      _hargaController.text = totalHarga.toString();
+    }
+
+    return Future<void>.value();
   }
-
-  return Future<void>.value();
-}
-
-
 
 //  Future<void> getData() async {
 //     try {
@@ -150,7 +154,6 @@ Future<void> _calculateHarga() {
 //       print(e);
 //     }
 //   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +181,7 @@ Future<void> _calculateHarga() {
                   labelText: 'Nama',
                 ),
               ),
-               TextField(
+              TextField(
                 controller: _lapanganController,
                 readOnly: true,
                 decoration: InputDecoration(
@@ -193,24 +196,24 @@ Future<void> _calculateHarga() {
                 ),
               ),
               SizedBox(height: 20.0),
-             TextField(
-              controller: _startTimeController,
-              readOnly: true,
-              onTap: () => _selectStartTime(context),
-              decoration: InputDecoration(
-                labelText: 'Jam Awal',
-                suffixIcon: Icon(Icons.access_time),
+              TextField(
+                controller: _startTimeController,
+                readOnly: true,
+                onTap: () => _selectStartTime(context),
+                decoration: InputDecoration(
+                  labelText: 'Jam Awal',
+                  suffixIcon: Icon(Icons.access_time),
+                ),
               ),
-            ),
-            TextField(
-              controller: _endTimeController,
-              readOnly: true,
-              onTap: () => _selectEndTime(context),
-              decoration: InputDecoration(
-                labelText: 'Jam Akhir',
-                suffixIcon: Icon(Icons.access_time),
+              TextField(
+                controller: _endTimeController,
+                readOnly: true,
+                onTap: () => _selectEndTime(context),
+                decoration: InputDecoration(
+                  labelText: 'Jam Akhir',
+                  suffixIcon: Icon(Icons.access_time),
+                ),
               ),
-            ),
               SizedBox(height: 20.0),
               TextField(
                 controller: _dateController,
@@ -223,13 +226,13 @@ Future<void> _calculateHarga() {
                 ),
               ),
               SizedBox(height: 8.0),
-             TextField(
-              controller: _hargaController,
-              readOnly: true,
-              decoration: InputDecoration(
-                labelText: 'Harga',
+              TextField(
+                controller: _hargaController,
+                readOnly: true,
+                decoration: InputDecoration(
+                  labelText: 'Harga',
+                ),
               ),
-            ),
               SizedBox(height: 16.0),
               TextField(
                 decoration: InputDecoration(
@@ -263,45 +266,97 @@ Future<void> _calculateHarga() {
               //   },
               // ),
 
-              if (_pickedImage != null)
-                Image.network(
-                  _pickedImage!.path,
-                  width: 200,
-                  height: 200,
-                )
-              else
-                Text('Belum ada gambar dipilih'),
-              ElevatedButton(
-                onPressed: _pickImage,
-                child: Text('Upload Bukti Pembayaran'),
-              ),
+             if (_pickedImage != null)
+  Image.network(
+    _pickedImage!.path,
+    width: 200,
+    height: 200,
+  )
+else
+  Text('Belum ada gambar dipilih'),
 
-              SizedBox(height: 16.0),
-              ElevatedButton(
-                child: Text('Sewa'),
-                onPressed: () {
-                  _submitTransaksi();
-                },
-              ),
+ElevatedButton(
+  onPressed: _pickImage,
+  child: Text('Upload Bukti Pembayaran'),
+),
+
+SizedBox(height: 16.0),
+
+ElevatedButton.icon(
+  icon: Icon(Icons.check),
+  label: Text('Submit'),
+  onPressed: () {
+    final nama = _namaController.text;
+    final lapangan = _lapanganController.text;
+    final jamAwal = _startTimeController.text;
+    final jamAkhir = _endTimeController.text;
+    final tanggal = _dateController.text;
+    final totalBayar = _totalBayarController.text;
+    final sisaBayar = _sisaBayarController.text;
+    final bukti = _pickedImage != null ? _pickedImage!.path : '';
+
+    final data = {
+      'namaMember': nama,
+      'namaLapangan': lapangan,
+      'jamAwal': jamAwal,
+      'jamAkhir': jamAkhir,
+      'tanggal': tanggal,
+      'total_bayar': totalBayar,
+      'sisa_bayar': sisaBayar,
+      'bukti_bayar': bukti,
+    };
+
+    try {
+      TransaksiSubmit.createTransaksi(data);
+      Fluttertoast.showToast(
+        msg: 'Data berhasil disimpan. Silakan lakukan pembayaran.',
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+      );
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
+    } catch (e) {
+      print('Gagal membuat transaksi: $e');
+    }
+  },
+  style: ElevatedButton.styleFrom(
+    primary: Colors.amber,
+    onPrimary: Colors.white,
+  ),
+),
+
             ],
           ),
         ),
       ),
     );
+
+    // Mengambil nilai input dari dropdown dan text field
   }
 
   Future<void> _pickImage() async {
-    final picker = ImagePicker();
-    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+  final picker = ImagePicker();
+  final pickedImage = await picker.pickImage(source: ImageSource.gallery);
 
-    if (pickedImage != null) {
-      setState(() {
-        _pickedImage = File(pickedImage.path);
-      });
-      // Gunakan pickedImage untuk mengakses path gambar yang dipilih
-      // atau melakukan operasi lain seperti mengunggah ke server
-    }
+  if (pickedImage != null) {
+    setState(() {
+      _pickedImage = pickedImage as File?;
+    });
+
+    // Mendapatkan path dan nama file dari pickedImage
+    final imagePath = pickedImage.path;
+    final fileName = pickedImage.name;
+    
+    // Gunakan imagePath dan fileName sesuai kebutuhan Anda
+    print('Path: $imagePath');
+    print('Nama File: $fileName');
+    
+    // Lakukan operasi lain yang Anda perlukan dengan path atau nama file
   }
+}
+
 
   void _selectDate(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
@@ -321,32 +376,10 @@ Future<void> _calculateHarga() {
   void _calculateSisaBayar() {
     // Lakukan perhitungan sisa bayar sesuai dengan logika bisnis Anda
     // Contoh perhitungan: sisaBayar = totalHarga - totalBayar
-    totalHarga = int.parse(_hargaController.text); // Ganti dengan nilai total harga yang sesuai
+    totalHarga = int.parse(
+        _hargaController.text); // Ganti dengan nilai total harga yang sesuai
     totalBayar = int.parse(_totalBayarController.text);
     sisaBayar = totalHarga - totalBayar;
     _sisaBayarController.text = sisaBayar.toString();
-  }
-
-  void _submitTransaksi() {
-    // Lakukan logika  enyimpanan ke database di sini
-    // Jika berhasil, tampilkan pop-up "Transaksi berhasil"
-    // Jika gagal, tampilkan pop-up "Transaksi gagal"
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Status Transaksi'),
-          content: Text('Transaksi berhasil'),
-          actions: [
-            ElevatedButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 }
