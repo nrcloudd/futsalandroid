@@ -25,6 +25,7 @@ class HomePage extends StatefulWidget {
 
 class _statusState extends State<HomePage> {
   List<dynamic> products = [];
+ 
   String userName = '';
   @override
   void initState() {
@@ -58,6 +59,7 @@ class _statusState extends State<HomePage> {
       final data = await TampilLapangan.getLapanganData();
       setState(() {
         products = data;
+        print(data);
       });
     } catch (e) {
       print(e);
@@ -186,11 +188,11 @@ class _statusState extends State<HomePage> {
                     child: Text('Pinjam'),
                     onPressed: () {
                       Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PeminjamanPage(),
-                        ),
-                      );
+    context,
+    MaterialPageRoute(
+      builder: (context) => PeminjamanPage(id: product['id']),
+    ),
+  );
                     },
                   ),
                 ],

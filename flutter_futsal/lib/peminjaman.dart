@@ -1,15 +1,21 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_futsal/api_connection/api_connection.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PeminjamanPage extends StatefulWidget {
+  
+  final int id;
+
+  PeminjamanPage({required this.id});
   @override
   _SewaLapanganPageState createState() => _SewaLapanganPageState();
 }
 
 class _SewaLapanganPageState extends State<PeminjamanPage> {
+  
   File? _pickedImage;
   late String _selectedDate;
   late String _selectedTime;
@@ -36,6 +42,21 @@ class _SewaLapanganPageState extends State<PeminjamanPage> {
     _hargaController.dispose();
     super.dispose();
   }
+  void initState() {
+    super.initState();
+    print('ID: ${widget.id}');
+    getData();
+  }
+   void getData() async {
+  try {
+    final lapanganData = await LapanganService.show(widget.id);
+    print(lapanganData); // Print the lapanganData inside the try block
+    // Process lapanganData according to your needs
+  } catch (error) {
+    print(error);
+  }
+}
+
 
 Future<void> _selectStartTime(BuildContext context) async {
     final TimeOfDay? selectedTime = await showTimePicker(
