@@ -71,7 +71,7 @@ class API {
 
   Future<String> updateProfile(String name, String phone) async {
     final response = await http.put(
-      Uri.parse('$Connect/api/auth/update'),
+      Uri.parse('$Connect/api/updateprofile'),
       body: {
         'name': name,
         'phone': phone,
