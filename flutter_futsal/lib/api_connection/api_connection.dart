@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 class API {
-  static const String Connect = "http://10.0.2.2:8000";
+  static const String Connect = "http://127.0.0.1:8000";
 
   Future<String> registerUser(
       String name, String email, String password, String phone) async {
@@ -31,6 +31,7 @@ class API {
     final response = await http.post(
       Uri.parse('$Connect/api/auth/login'),
       body: {
+        
         'email': email,
         'password': password,
       },
@@ -70,17 +71,22 @@ class API {
   }
 
   Future<String> updateProfile(String name, String phone) async {
-    final response = await http.put(
-      Uri.parse('$Connect/api/updateprofile'),
+
+    final prefs = await SharedPreferences.getInstance();
+    final idUser = prefs.getInt('user_id').toString();
+    final response = await http.post(Uri.parse('$Connect/api/updateprofile'),
       body: {
+        'id' : idUser,
         'name': name,
         'phone': phone,
+
       },
     );
+    print(idUser);
     print('Response Status Code: ${response.statusCode}');
     print('Response Body: ${response.body}');
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       return 'Edit successful'; // Replace with your success message
     } else {
       return 'Edit failed '; // Replace with your failure message
@@ -92,7 +98,7 @@ class TampilLapangan {
   static Future<List<dynamic>> getLapanganData() async {
     try {
       final response =
-          await http.post(Uri.parse('http://10.0.2.2:8000/api/field/show'));
+          await http.post(Uri.parse('http://127.0.0.1:8000/api/field/show'));
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body) as Map<String, dynamic>;
         if (data.containsKey('data') && data['data'] is List<dynamic>) {
@@ -113,7 +119,7 @@ class LapanganService {
   static Future<dynamic> show(int id) async {
     try {
       final response = await http.post(
-        Uri.parse('http://10.0.2.2:8000/api/field/show2'),
+        Uri.parse('http://127.0.0.1:8000/api/field/show2'),
         body: {
           'id': id.toString()
         }, // Convert id to String before sending it in the request body
@@ -142,7 +148,7 @@ class LapanganService {
 class TransaksiSubmit {
   static Future<void> createTransaksi(
       Map<String, String> data, String imagePath) async {
-    final apiUrl = 'http://10.0.2.2:8000/api/trans/store';
+    final apiUrl = 'http://127.0.0.1:8000/api/trans/store';
 
     try {
       var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
