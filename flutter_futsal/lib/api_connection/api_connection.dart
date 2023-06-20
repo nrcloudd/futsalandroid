@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 class API {
-  static const String Connect = "http://127.0.0.1:8000";
+  static const String Connect = "http://10.0.2.2:8000";
 
   Future<String> registerUser(
       String name, String email, String password, String phone) async {
@@ -49,7 +49,6 @@ class API {
       // Login failed
       return 'Login failed';
     }
-
   }
 
   Future<void> saveUserToSharedPreferences(Map<String, dynamic> user) async {
@@ -70,7 +69,6 @@ class API {
     }
   }
 
-
   Future<String> updateProfile(String name, String phone) async {
     final response = await http.put(
       Uri.parse('$Connect/api/auth/update'),
@@ -88,13 +86,13 @@ class API {
       return 'Edit failed '; // Replace with your failure message
     }
   }
-  }
+}
 
 class TampilLapangan {
   static Future<List<dynamic>> getLapanganData() async {
     try {
       final response =
-          await http.post(Uri.parse('http://127.0.0.1:8000/api/field/show'));
+          await http.post(Uri.parse('http://10.0.2.2:8000/api/field/show'));
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body) as Map<String, dynamic>;
         if (data.containsKey('data') && data['data'] is List<dynamic>) {
@@ -115,7 +113,7 @@ class LapanganService {
   static Future<dynamic> show(int id) async {
     try {
       final response = await http.post(
-        Uri.parse('http://127.0.0.1:8000/api/field/show2'),
+        Uri.parse('http://10.0.2.2:8000/api/field/show2'),
         body: {
           'id': id.toString()
         }, // Convert id to String before sending it in the request body
@@ -139,13 +137,24 @@ class LapanganService {
       throw Exception('Terjadi kesalahan: $error');
     }
   }
-}class TransaksiSubmit {
-  static Future<void> createTransaksi(Map<String, String> data) async {
-    final apiUrl = 'http://127.0.0.1:8000/api/trans/store';
+}
+
+class TransaksiSubmit {
+  static Future<void> createTransaksi(
+      Map<String, String> data, String imagePath) async {
+    final apiUrl = 'http://10.0.2.2:8000/api/trans/store';
 
     try {
       var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
+
+      // Add form fields
       request.fields.addAll(data);
+
+      // Add image file
+      if (imagePath.isNotEmpty) {
+        var image = await http.MultipartFile.fromPath('bukti_bayar', imagePath);
+        request.files.add(image);
+      }
 
       var response = await request.send();
 
@@ -163,5 +172,3 @@ class LapanganService {
     }
   }
 }
-
-

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_futsal/api_connection/api_connection.dart';
 import 'package:flutter_futsal/home.dart';
 import 'package:flutter_futsal/login.dart';
@@ -131,13 +132,12 @@ class _SewaLapanganPageState extends State<PeminjamanPage> {
           (_selectedEndTime.hour - _selectedStartTime.hour) * 60;
       final int totalMinutes = minDifference + hourDifference;
 
-      final int harga = form[0]
-          ['harga']; // Assuming 'harga' is the field name in the JSON data
-
+      final int harga = form[0]['harga'];
       final int hargaKotor = totalMinutes * harga;
       final double totalHarga = hargaKotor / 60;
 
-      _hargaController.text = totalHarga.toString();
+      _hargaController.text = totalHarga
+          .toStringAsFixed(2); // Convert to string with 2 decimal places
     }
 
     return Future<void>.value();
@@ -265,68 +265,72 @@ class _SewaLapanganPageState extends State<PeminjamanPage> {
               //     _pickImage();
               //   },
               // ),
+              Text(
+                "DANA : 0895619425183 - Davin",
+              ),
+              SizedBox(height: 20.0),
+              if (_pickedImageFile != null)
+                Image.file(
+                  File(_pickedImageFile!.path),
+                  width: 200,
+                  height: 200,
+                )
+              else
+                Text('Belum ada gambar dipilih'),
 
-             if (_pickedImage != null)
-  Image.network(
-    _pickedImage!.path,
-    width: 200,
-    height: 200,
-  )
-else
-  Text('Belum ada gambar dipilih'),
+              ElevatedButton(
+                onPressed: _pickImage,
+                child: Text('Upload Bukti Pembayaran'),
+              ),
 
-ElevatedButton(
-  onPressed: _pickImage,
-  child: Text('Upload Bukti Pembayaran'),
-),
+              SizedBox(height: 16.0),
 
-SizedBox(height: 16.0),
+              ElevatedButton.icon(
+                icon: Icon(Icons.check),
+                label: Text('Submit'),
+                onPressed: () {
+                  final nama = _namaController.text;
+                  final lapangan = _lapanganController.text;
+                  final jamAwal = _startTimeController.text;
+                  final jamAkhir = _endTimeController.text;
+                  final tanggal = _dateController.text;
+                  final totalBayar = _totalBayarController.text;
+                  final sisaBayar = _sisaBayarController.text;
+                  final bukti = _pickedImage != null ? _pickedImage!.path : '';
 
-ElevatedButton.icon(
-  icon: Icon(Icons.check),
-  label: Text('Submit'),
-  onPressed: () {
-    final nama = _namaController.text;
-    final lapangan = _lapanganController.text;
-    final jamAwal = _startTimeController.text;
-    final jamAkhir = _endTimeController.text;
-    final tanggal = _dateController.text;
-    final totalBayar = _totalBayarController.text;
-    final sisaBayar = _sisaBayarController.text;
-    final bukti = _pickedImage != null ? _pickedImage!.path : '';
+                  final data = {
+                    'namaMember': nama,
+                    'namaLapangan': lapangan,
+                    'jamAwal': jamAwal,
+                    'jamAkhir': jamAkhir,
+                    'tanggal': tanggal,
+                    'total_bayar': totalBayar,
+                    'sisa_bayar': sisaBayar,
+                    'bukti_bayar': bukti,
+                  };
 
-    final data = {
-      'namaMember': nama,
-      'namaLapangan': lapangan,
-      'jamAwal': jamAwal,
-      'jamAkhir': jamAkhir,
-      'tanggal': tanggal,
-      'total_bayar': totalBayar,
-      'sisa_bayar': sisaBayar,
-      'bukti_bayar': bukti,
-    };
-
-    try {
-      TransaksiSubmit.createTransaksi(data);
-      Fluttertoast.showToast(
-        msg: 'Data berhasil disimpan. Silakan lakukan pembayaran.',
-        backgroundColor: Colors.green,
-        textColor: Colors.white,
-      );
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage()),
-      );
-    } catch (e) {
-      print('Gagal membuat transaksi: $e');
-    }
-  },
-  style: ElevatedButton.styleFrom(
-    primary: Colors.amber,
-    onPrimary: Colors.white,
-  ),
-),
-
+                  try {
+                    TransaksiSubmit.createTransaksi(
+                        data, _pickedImageFile?.path ?? '');
+                    Fluttertoast.showToast(
+                      msg:
+                          'Data berhasil disimpan. Silakan lakukan pembayaran.',
+                      backgroundColor: Colors.green,
+                      textColor: Colors.white,
+                    );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomePage()),
+                    );
+                  } catch (e) {
+                    print('Gagal membuat transaksi: $e');
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.amber,
+                  onPrimary: Colors.white,
+                ),
+              ),
             ],
           ),
         ),
@@ -336,27 +340,32 @@ ElevatedButton.icon(
     // Mengambil nilai input dari dropdown dan text field
   }
 
+  XFile? _pickedImageFile;
+
   Future<void> _pickImage() async {
-  final picker = ImagePicker();
-  final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+    final picker = ImagePicker();
+    try {
+      final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+      if (pickedImage != null) {
+        setState(() {
+          _pickedImageFile = pickedImage;
+        });
 
-  if (pickedImage != null) {
-    setState(() {
-      _pickedImage = pickedImage as File?;
-    });
+        // Getting the path and file name from pickedImage
+        final imagePath = pickedImage.path;
+        final fileName = imagePath.split('/').last;
 
-    // Mendapatkan path dan nama file dari pickedImage
-    final imagePath = pickedImage.path;
-    final fileName = pickedImage.name;
-    
-    // Gunakan imagePath dan fileName sesuai kebutuhan Anda
-    print('Path: $imagePath');
-    print('Nama File: $fileName');
-    
-    // Lakukan operasi lain yang Anda perlukan dengan path atau nama file
+        // Use imagePath and fileName as needed
+        print('Path: $imagePath');
+        print('File Name: $fileName');
+
+        // Perform other operations you need with the path or file name
+      }
+    } on PlatformException catch (e) {
+      // Handle any potential platform exceptions
+      print('Failed to pick image: $e');
+    }
   }
-}
-
 
   void _selectDate(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
@@ -374,11 +383,8 @@ ElevatedButton.icon(
   }
 
   void _calculateSisaBayar() {
-    // Lakukan perhitungan sisa bayar sesuai dengan logika bisnis Anda
-    // Contoh perhitungan: sisaBayar = totalHarga - totalBayar
-    totalHarga = int.parse(
-        _hargaController.text); // Ganti dengan nilai total harga yang sesuai
-    totalBayar = int.parse(_totalBayarController.text);
+    totalHarga = double.parse(_hargaController.text).toInt();
+    totalBayar = double.parse(_totalBayarController.text).toInt();
     sisaBayar = totalHarga - totalBayar;
     _sisaBayarController.text = sisaBayar.toString();
   }
